@@ -1,7 +1,7 @@
 // src/controllers/jobController.js
 const Job = require('../models/jobModel');
+const extractTechnologiesAndType = require('../scrapers/techscrap');
 const scrapeChiletrabajos = require('../scrapers/chiletrabajosScraper');
-
 
 // Obtener todas las ofertas de trabajo
 exports.getJobs = async (req, res) => {
@@ -40,8 +40,16 @@ exports.scrapeJobs = async (req, res) => {
   }
 };
 
-exports.scrapeJobs2 = async (req, res) => {
+exports.scrapeJobsTest = async (req, res) => {
   res.status(200).json({ message: 'Scraping iniciado' });
 
 };
 
+
+exports.scrapeJobsTechTest = async (req, res) => {
+  try {
+    await extractTechnologiesAndType();  // Llama a la función de scraping
+    res.status(200).json({ message: 'Tecnologias obtenidas con IA' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener las tecnologias con IA' });
+  }};

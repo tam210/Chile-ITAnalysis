@@ -79,7 +79,10 @@ async function scrapeChiletrabajos(maxJobs = 30) {
   await browser.close();
 }
 
-async function scrapeChiletrabajos2(maxJobs = 30){
+
+
+
+async function scrapeTest(maxJobs = 30){
   job1 = {
     title : 'Titulo',
           company : 'Compañia',
