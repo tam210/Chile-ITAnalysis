@@ -1,0 +1,39 @@
+version: '3'  # Version de Docker Compose
+
+services:
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"  # Mapea el puerto 3000 del contenedor al 3000 de la máquina local
+  #   depends_on:
+  #     - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"  # Mapea el puerto 3000 del contenedor al 3001 de la máquina local
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mi-base-de-datos  # Conexión a MongoDB
+      - REDIS_URL=redis://redis:6379  # Conexión a Redis (si es necesario)
+    depends_on:
+      - mongo
+      - redis
+
+  mongo:
+    image: mongo:latest  # Usa la imagen oficial de MongoDB
+    ports:
+      - "27017:27017"  # Mapea el puerto 27017 del contenedor al 27017 de la máquina local
+    volumes:
+      - mongodb_data:/data/db  # Volumen persistente para datos de MongoDB
+
+  redis:
+    image: redis:latest  # Usa la imagen oficial de Redis
+    ports:
+      - "6379:6379"  # Mapea el puerto 6379 del contenedor al 6379 de la máquina local
+
+volumes:
+  mongodb_data:  # Define un volumen persistente para MongoDB
