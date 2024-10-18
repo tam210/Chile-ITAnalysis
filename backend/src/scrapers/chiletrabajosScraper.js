@@ -1,8 +1,22 @@
 // src/scrapers/chiletrabajosScraper.js
+
+
 const puppeteer = require('puppeteer');
 const Job = require('../models/jobModel');  // Modelo para guardar en MongoDB
 
-async function scrapeChiletrabajos(maxJobs = 30) {
+// PREPROCESAMIENTO - Función para guardar en CSV los trabajos
+const fs = require('fs');
+
+function guardarEnCSV(jobs, filename) {
+  const headers = ['title', 'company', 'location', 'description'].join(';') + '\n';
+  const data = jobs.map(job => `${job.title};${job.company};${job.location};${job.description}`).join('\n');
+  
+  fs.writeFileSync(filename, headers + data);
+  console.log(`Datos exportados a ${filename}`);
+}
+
+// SCRAPING -  Scraping en página y almacenamiento en arreglo
+async function scrapeChiletrabajos(maxJobs = 3) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -29,37 +43,32 @@ async function scrapeChiletrabajos(maxJobs = 30) {
       await page.goto(link, { waitUntil: 'networkidle2' });
 
       const jobDetails = await page.evaluate(() => {
-        const title = document.querySelector('.title.titulo-detalle').innerText;  // Título
-        // const company = document.querySelector('.oferta-estrella').previousElementSibling.innerText; // Nombre de la empresa
-        // const location = document.querySelector('td:nth-child(2) a').innerText;  // Ubicación
-        // const datePosted = document.querySelector('td:nth-child(2) div').innerText; // Fecha
+        //title = document.querySelector('.title.titulo-detalle').innerText;  // Título
+        title = document.querySelector('h1.title.titulo-detalle.text-uppercase').innerText;  // Título
+        
+
         const company = "por defecto";
         const location = "por defecto";
-        const description = document.querySelector('.mb-0').innerText;  // Descripción
-        const technologies = [];  // Puedes definir cómo extraer tecnologías específicas si se listan
-        const benefits = [];  // Aquí podrías extraer beneficios si están presentes
-
-        // Extracción de beneficios
-        // const benefitElements = document.querySelectorAll('.icon-beneficio[data-original-title]');
-        // benefitElements.forEach(benefit => {
-        //   benefits.push(benefit.getAttribute('data-original-title'));
-        // });
-        console.log(title)
-
+        //const description = document.querySelector('p.mb-0').innerText;  // 
+        const descripcionElement = document.querySelector('div.job-item.no-hover.with-thumb.pb-2.detalle div.p-x-3.overflow-hidden div p.mb-0');
+        const description = descripcionElement.innerHTML
+        .replace(/<br\s*\/?>/gi, ' ') // Reemplazar <br> por espacio
+        .replace(/\n/g, ' ')          // Eliminar saltos de línea
+        .replace(/\s+/g, ' ')         // Normalizar espacios en blanco
+        .trim();                      // Eliminar espacios al principio y al final
+        //descripcionElement.innerHTML.replace(/<br\s*\/?>/gi, ' ');
         return {
           title,
           company,
           location,
-          // datePosted,
-          description,
-          technologies
+          description
           // isRemote: location.includes('Remoto') || location.includes('Híbrido'),  // Determina si es remoto
         };
       });
 
       jobs.push(jobDetails);
 
-      // Si ya tienes 5000 trabajos, salir del bucle
+      // Si ya se tiene x trabajos, salir del bucle
       if (jobs.length >= maxJobs) {
         break;
       }
@@ -70,16 +79,17 @@ async function scrapeChiletrabajos(maxJobs = 30) {
   }
 
   // Guardar en MongoDB
-  for (const job of jobs) {
-    const newJob = new Job(job);
-    await newJob.save();
-  }
+  // for (const job of jobs) {
+  //   const newJob = new Job(job);
+  //   await newJob.save();
+  // }
+
+  
 
   console.log(`Se guardaron ${jobs.length} trabajos en la base de datos.`);
   await browser.close();
+  guardarEnCSV(jobs, 'empleos.csv')
 }
-
-
 
 
 async function scrapeTest(maxJobs = 30){
