@@ -18,7 +18,7 @@ function guardarEnCSV(jobs, filename) {
 }
 
 // SCRAPING -  Scraping en página y almacenamiento en arreglo
-async function scrapeChiletrabajos(maxJobs = 3) {
+async function scrapeChiletrabajos(maxJobs = 1000) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -26,6 +26,10 @@ async function scrapeChiletrabajos(maxJobs = 3) {
   let currentPage = 1;
 
   while (jobs.length < maxJobs) {
+    // Medir tiempo de scraping
+    const startScrapingTime30 = Date.now();
+
+
     const url = `https://www.chiletrabajos.cl/trabajos/informatica/${(currentPage - 1) * 30}`;
     console.log(`Navegando a: ${url}`);  // Verifica la URL que se está accediendoa
     await page.goto(url, { waitUntil: 'networkidle2' });
@@ -78,6 +82,10 @@ async function scrapeChiletrabajos(maxJobs = 3) {
 
     console.log(`Página ${currentPage}: Se obtuvieron ${jobs.length} trabajos.`);
     currentPage++;  // Pasar a la siguiente página
+
+    const endScrapingTime30 = Date.now();
+    const scrapingElapsedTime30 = (endScrapingTime30 - startScrapingTime30) / 1000; // Convertir a segundos
+    console.log(`Tiempo de scraping: ${scrapingElapsedTime30} segundos`);
   }
 
   // Guardar en MongoDB
