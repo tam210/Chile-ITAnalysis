@@ -1,19 +1,23 @@
 # Chile-ITAnalysis
 
 ## Herramientas 
-- [x] Thunder Client para realizar peticiones HTTP
-- [x] MongoDB Compass para interactuar con la BD
-- [x] API KEY de OpenAI (secret key)
+- Thunder Client para realizar peticiones HTTP
+- MongoDB Compass para interactuar con la BD
+- API KEY de OpenAI (secret key)
+- Apache Spark 
 
 ## Tareas completadas
 - [x] Creación y conexión a BD
 - [x] Ruta **api/scrape** para obtener trabajos de página y guardarlos en la BD
 - [x] Ruta **api/scrape-tech-test** para testear función de obtención de tecnologías vía descripción *(reevaluar función)*
+- [x] Script de conteo de tecnologías
+- [x] Script de procesamiento del CSV con Apache Spark, con configuraciones varias (filtrado, nº particiones)
 
 
 ### Errores, problemas, limitaciones
 - [ ] Uso de API limitado, ver otra alternativa o contramedida para obtener las tecnologías
 - [ ] Evaluar si va muy lento y optimizar el programa
+- [ ] Promedio de 60s por cada 30 registros de scraping
 
 # Registro de Tiempos de Ejecución según Hiperparámetros
 
