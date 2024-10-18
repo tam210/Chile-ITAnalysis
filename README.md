@@ -20,9 +20,9 @@
 - [ ] Promedio de 60s por cada 30 registros de scraping
 
 ### Planteamiento 
-**1. Obtención de datos vía scraping con Puppeteer y guardado en CSV** 
-**2. **Lectura del CSV y extracción de tecnologías con Apache Spark** 
-**2. **CSV con la frecuencia de las tecnologías**
+1. **Obtención de datos vía scraping con Puppeteer y guardado en CSV**
+2. **Lectura del CSV y extracción de tecnologías con Apache Spark**
+3. **CSV con la frecuencia de las tecnologías**
 
 # Registro de Tiempos de Ejecución según Hiperparámetros
 
