@@ -17,7 +17,8 @@
 ### Errores, problemas, limitaciones
 - [ ] Uso de API limitado, ver otra alternativa o contramedida para obtener las tecnologías
 - [ ] Evaluar si va muy lento y optimizar el programa
-- [ ] Promedio de 60s por cada 30 registros de scraping
+- [ ] Promedio de 60s por cada 30 registros de scraping (estimación de 40m en 1200 registros)
+- [ ] Optimizar proceso de scraping (aplicar multithreading o multiprocessing)
 
 ### Planteamiento 
 1. **Obtención de datos vía scraping con Puppeteer y guardado en CSV**
