@@ -1,9 +1,11 @@
 // src/scrapers/chiletrabajosScraper.js
 
+// Medir tiempo de scraping
+const startScrapingTime = Date.now();
+
 
 const puppeteer = require('puppeteer');
 const Job = require('../models/jobModel');  // Modelo para guardar en MongoDB
-
 // PREPROCESAMIENTO - Función para guardar en CSV los trabajos
 const fs = require('fs');
 
@@ -86,9 +88,13 @@ async function scrapeChiletrabajos(maxJobs = 3) {
 
   
 
-  console.log(`Se guardaron ${jobs.length} trabajos en la base de datos.`);
+  //console.log(`Se guardaron ${jobs.length} trabajos en la base de datos.`);
   await browser.close();
   guardarEnCSV(jobs, 'empleos.csv')
+
+  const endScrapingTime = Date.now();
+  const scrapingElapsedTime = (endScrapingTime - startScrapingTime) / 1000; // Convertir a segundos
+  console.log(`Tiempo de scraping: ${scrapingElapsedTime} segundos`);
 }
 
 
