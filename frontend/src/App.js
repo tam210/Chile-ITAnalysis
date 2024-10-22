@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/home';        // Componente de la página principal
-import TechCards from './components/techcards';  // Componente que muestra las tarjetas de tecnologías
-import About from './components/about';      // Componente para la página "Sobre"
+import Home from './components/home';
+import TechCards from './components/techcards';
+import About from './components/about';
+import './styles/navbar.css'; // Importar los estilos de la barra de navegación
 
 function App() {
   return (

@@ -1,5 +1,6 @@
 // src/app.js
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./db');
 const dotenv = require('dotenv');
 const routes = require('./routes');
@@ -11,6 +12,8 @@ dotenv.config();
 
 // Inicializar la aplicación Express
 const app = express();
+
+app.use(cors())
 
 // Middleware para procesar JSON
 app.use(express.json());

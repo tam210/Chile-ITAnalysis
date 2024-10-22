@@ -5,7 +5,7 @@ const jobController = require('./controllers/jobController');
 const router = express.Router();
 
 
-router.get('/api/top-tech', jobController.getTopTechs);
+router.get('/top-tech', jobController.getTopTechs);
 
 // Rutas para las ofertas de trabajo
 router.get('/scrape', jobController.scrapeJobs);  // Ruta para iniciar el scraping

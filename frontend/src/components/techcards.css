@@ -1,0 +1,32 @@
+.chart-container {
+  display: flex;
+  flex-direction: column; /* Organiza las barras verticalmente */
+  width: 100%; /* Ancho del contenedor */
+  padding: 20px; /* Espacio alrededor */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bar-container {
+  display: flex;
+  flex-direction: row; /* Alinear nombre y barra horizontalmente */
+  align-items: center; /* Centrar la barra y el texto */
+  margin-bottom: 10px; /* Espacio entre las barras */
+}
+
+.bar {
+  height: 30px; /* Altura de cada barra */
+  transition: width 0.5s ease; /* Transición suave al cambiar ancho */
+  background-color: #ccc; /* Color por defecto */
+}
+
+.tech-name {
+  margin-right: 10px; /* Espacio entre el nombre de la tecnología y la barra */
+  width: 150px; /* Ancho fijo para el nombre */
+  font-weight: bold;
+}
+
+.frequency-text {
+  margin-left: 10px; /* Espacio entre la barra y el texto de frecuencia */
+  font-size: 14px; /* Tamaño de fuente para la frecuencia */
+  color: #333; /* Color del texto */
+}
