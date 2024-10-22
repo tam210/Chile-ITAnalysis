@@ -38,3 +38,16 @@
 |-----------------------|--------------------------------|
 |       300             |             562.86             |
 |       1000            |               ?                |
+# Registro de Tiempos de Ejecución según Hiperparámetros
+
+| Hiperparámetro       | Valor   | Cantidad de registros | Tiempo de Ejecución (segundos) |
+|----------------------|---------|-----------------------|--------------------------------|
+| Número de Particiones| 2       |        1000           |             23.03              |
+| Número de Particiones| 4       |        1000           |             24.33              |
+
+# Registro de Tiempos de Ejecución de Scraping
+
+| Cantidad de registros | Tiempo de Ejecución (segundos) |
+|-----------------------|--------------------------------|
+|       300             |             562.86             |
+|       1000            |            1860.52             |

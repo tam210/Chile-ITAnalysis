@@ -53,3 +53,12 @@ exports.scrapeJobsTechTest = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener las tecnologias con IA' });
   }};
+
+exports.getTopTechs = async (req, res) => {
+    try {
+      await getTopTechsJSON(res); 
+      res.status(200).json({ message: 'Obteniendo tecnologías' });
+    } catch (err) {
+      res.status(500).json({ message: 'Error al obtener las tecnologías' });
+  }};
+  

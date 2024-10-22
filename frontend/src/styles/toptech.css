@@ -1,0 +1,47 @@
+/* Contenedor de las tarjetas */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;         /* Permitir que las tarjetas se ajusten automáticamente en varias filas */
+    justify-content: center; /* Centrarlas horizontalmente */
+    gap: 20px;               /* Espacio entre las tarjetas */
+    padding: 20px;           /* Espaciado alrededor del contenedor */
+  }
+  
+  /* Estilo de cada tarjeta individual */
+  .card {
+    background-color: #f9f9f9;   /* Fondo claro */
+    border-radius: 8px;          /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+    width: 250px;                /* Ancho fijo para las tarjetas */
+    padding: 20px;               /* Espaciado interno */
+    text-align: center;          /* Alinear el texto al centro */
+    color: white;                /* Color del texto (se cambiará según el color de fondo) */
+    transition: transform 0.3s ease;  /* Efecto de animación al hacer hover */
+  }
+  
+  /* Animación al pasar el mouse por encima */
+  .card:hover {
+    transform: scale(1.05);      /* Ampliar la tarjeta un poco al hacer hover */
+  }
+  
+  /* Estilos para el título de la tarjeta */
+  .card h3 {
+    margin: 0;                   /* Eliminar margen */
+    font-size: 20px;             /* Tamaño de fuente del título */
+    font-weight: bold;           /* Negrita */
+  }
+  
+  /* Estilos para el párrafo de frecuencia */
+  .card p {
+    margin-top: 10px;            /* Espaciado superior */
+    font-size: 16px;             /* Tamaño de fuente del texto */
+    font-weight: 300;            /* Fuente ligera */
+  }
+  
+  /* Estilos responsivos para pantallas más pequeñas */
+  @media (max-width: 768px) {
+    .card {
+      width: 100%;               /* Las tarjetas ocupan todo el ancho en pantallas pequeñas */
+    }
+  }
+  
