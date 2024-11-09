@@ -10,15 +10,15 @@ const Job = require('../models/jobModel');  // Modelo para guardar en MongoDB
 const fs = require('fs');
 
 function guardarEnCSV(jobs, filename) {
-  const headers = ['title', 'company', 'location', 'description'].join(';') + '\n';
-  const data = jobs.map(job => `${job.title};${job.company};${job.location};${job.description}`).join('\n');
+  const headers = ['title', 'location', 'type', 'description'].join(';') + '\n';
+  const data = jobs.map(job => `${job.title};${job.location};${job.type};${job.description}`).join('\n');
   
   fs.writeFileSync(filename, headers + data);
   console.log(`Datos exportados a ${filename}`);
 }
 
 // SCRAPING -  Scraping en página y almacenamiento en arreglo
-async function scrapeChiletrabajos(maxJobs = 1000) {
+async function scrapeChiletrabajos(maxJobs = 1) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
@@ -30,7 +30,7 @@ async function scrapeChiletrabajos(maxJobs = 1000) {
     const startScrapingTime30 = Date.now();
 
 
-    const url = `https://www.chiletrabajos.cl/trabajos/informatica/${(currentPage - 1) * 30}`;
+    const url = `https://www.chiletrabajos.cl/trabajos/informatica/${(currentPage - 1) * 1}`;
     console.log(`Navegando a: ${url}`);  // Verifica la URL que se está accediendoa
     await page.goto(url, { waitUntil: 'networkidle2' });
 
@@ -54,8 +54,28 @@ async function scrapeChiletrabajos(maxJobs = 1000) {
         
 
         const company = "por defecto";
-        const location = "por defecto";
-        //const description = document.querySelector('p.mb-0').innerText;  // 
+        // const location = "por defecto";
+        //const location = document.querySelector('div.box.px-3.border.mt-2.no-pointer div.datos.mt-3 div.row div.col-12.col-sm-12.col-md-12.col-lg-7 table.table.table-sm tbody');
+        //2 const locationElement = document.querySelector('div.box.px-3.border.mt-2.no-pointer div.datos.mt-3 div.row div.col-12.col-sm-12.col-md-12.col-lg-7 table.table.table-sm tbody');
+        //2 const location = locationElement ? locationElement.textContent.trim() : 'No disponible';
+
+        const detailsJobElement = document.querySelector('table.table.table-sm tbody');
+        let location = 'No disponible';
+        let type = 'No disponible';
+        
+        if (detailsJobElement) {
+          const rows = detailsJobElement.querySelectorAll('tr');
+          rows.forEach(row => {
+            const label = row.querySelector('td:nth-child(1)').innerText.trim();
+            if (label === 'Ubicación') {
+              location = row.querySelector('td:nth-child(2)').innerText.trim();
+            }
+            if(label === 'Tipo'){
+              type = row.querySelector('td:nth-child(2)').innerText.trim();
+            }
+          });
+        }
+      
         const descripcionElement = document.querySelector('div.job-item.no-hover.with-thumb.pb-2.detalle div.p-x-3.overflow-hidden div p.mb-0');
         const description = descripcionElement.innerHTML
         .replace(/<br\s*\/?>/gi, ' ') // Reemplazar <br> por espacio
@@ -65,8 +85,8 @@ async function scrapeChiletrabajos(maxJobs = 1000) {
         //descripcionElement.innerHTML.replace(/<br\s*\/?>/gi, ' ');
         return {
           title,
-          company,
           location,
+          type,
           description
           // isRemote: location.includes('Remoto') || location.includes('Híbrido'),  // Determina si es remoto
         };
@@ -98,7 +118,7 @@ async function scrapeChiletrabajos(maxJobs = 1000) {
 
   //console.log(`Se guardaron ${jobs.length} trabajos en la base de datos.`);
   await browser.close();
-  guardarEnCSV(jobs, 'empleos.csv')
+  guardarEnCSV(jobs, 'empleos2.csv')
 
   const endScrapingTime = Date.now();
   const scrapingElapsedTime = (endScrapingTime - startScrapingTime) / 1000; // Convertir a segundos
